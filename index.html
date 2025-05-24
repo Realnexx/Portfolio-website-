@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portfolio - Your Name</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet" />
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+  <style>
+    :root {
+      --color-bg-light: #f0f2f5;
+      --color-text-light: #111827;
+      --color-primary-light: #2563eb;
+      --color-highlight-light: #3b82f6;
+      --color-card-bg-light: #ffffff;
+      --color-bg-dark: #121212;
+      --color-text-dark: #e4e4e7;
+      --color-primary-dark: #3b82f6;
+      --color-highlight-dark: #60a5fa;
+      --color-card-bg-dark: #1f2937;
+      --transition-speed: 0.3s;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--color-bg-light);
+      color: var(--color-text-light);
+      transition: background-color var(--transition-speed), color var(--transition-speed);
+    }
+    body.dark {
+      background-color: var(--color-bg-dark);
+      color: var(--color-text-dark);
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: var(--color-card-bg-light);
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      transition: background-color var(--transition-speed);
+    }
+    body.dark header {
+      background-color: var(--color-card-bg-dark);
+    }
+
+    .logo {
+      font-size: 1.6rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .logo img {
+      height: 40px;
+      border-radius: 50%;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    .logo img:hover {
+      transform: scale(1.05) rotate(5deg);
+    }
+
+    nav {
+      display: flex;
+      gap: 1.5rem;
+    }
+    nav a {
+      color: inherit;
+      text-decoration: none;
+      font-weight: 600;
+      position: relative;
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      left: 0;
+      bottom: -4px;
+      background-color: var(--color-highlight-light);
+      transition: width 0.3s;
+    }
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 1.5rem;
+      background: none;
+      border: none;
+      color: var(--color-highlight-light);
+      cursor: pointer;
+    }
+    body.dark .menu-toggle {
+      color: var(--color-highlight-dark);
+    }
+
+    #mode-toggle {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--color-highlight-light);
+      cursor: pointer;
+      transition: color var(--transition-speed);
+    }
+    body.dark #mode-toggle {
+      color: var(--color-highlight-dark);
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        background: var(--color-card-bg-light);
+        padding: 1rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      body.dark nav {
+        background: var(--color-card-bg-dark);
+      }
+      nav.show {
+        display: flex;
+      }
+      .menu-toggle {
+        display: block;
+      }
+    }
+
+    main {
+      max-width: 960px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    section {
+      margin-bottom: 3rem;
+      animation: fadeInUp 0.6s ease forwards;
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    section.animated {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    #about, #projects, #contact {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      text-align: center;
+    }
+    #about img {
+      border-radius: 50%;
+      width: 220px;
+      height: 220px;
+      object-fit: cover;
+      box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+    }
+    #about h1 {
+      font-size: 2.5rem;
+    }
+    #about p {
+      font-size: 1.1rem;
+      color: #555;
+    }
+    body.dark #about p {
+      color: #ccc;
+    }
+
+    #skills h2, #projects h2, #contact h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+    }
+    .skill {
+      background: var(--color-card-bg-light);
+      padding: 1rem;
+      border-radius: 10px;
+      width: 120px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .skill:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    body.dark .skill {
+      background: var(--color-card-bg-dark);
+    }
+    .skill i {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      color: var(--color-highlight-light);
+    }
+    body.dark .skill i {
+      color: var(--color-highlight-dark);
+    }
+    #projects {
+  text-align: center;
+}
+#projects h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+.projects-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+}
+.project-card {
+  background: var(--color-card-bg-light);
+  padding: 1rem;
+  border-radius: 10px;
+  width: 280px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+body.dark .project-card {
+  background: var(--color-card-bg-dark);
+}
+.project-card img {
+  width: 100%;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+}
+.project-card h3 {
+  margin: 0.5rem 0;
+}
+.project-card p {
+  font-size: 0.9rem;
+  color: #555;
+}
+body.dark .project-card p {
+  color: #ccc;
+}
+.project-card a {
+  display: inline-block;
+  margin-top: 0.5rem;
+  color: var(--color-primary-light);
+  text-decoration: none;
+  font-weight: 600;
+}
+body.dark .project-card a {
+  color: var(--color-primary-dark);
+}
+#contact {
+  text-align: center;
+}
+#contact h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+.contact-form {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: left;
+}
+.contact-form label {
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: var(--color-card-bg-light);
+  color: var(--color-text-light);
+}
+body.dark .contact-form input,
+body.dark .contact-form textarea {
+  background: var(--color-card-bg-dark);
+  color: var(--color-text-dark);
+  border: 1px solid #444;
+}
+.contact-form button {
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--color-primary-light);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color var(--transition-speed);
+}
+.contact-form button:hover {
+  background-color: var(--color-highlight-light);
+}
+body.dark .contact-form button {
+  background-color: var(--color-primary-dark);
+}
+body.dark .contact-form button:hover {
+  background-color: var(--color-highlight-dark);
+}
+footer {
+  background-color: var(--color-bg-light);
+  color: var(--color-text-light);
+  padding: 2rem 1rem;
+  text-align: center;
+  border-top: 1px solid #eee;
+}
+body.dark footer {
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-dark);
+  border-color: #444;
+}
+.footer-content {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.footer-links,
+.footer-socials {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.footer-links a,
+.footer-socials a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.footer-links a:hover,
+.footer-socials a:hover {
+  color: var(--color-highlight-light);
+}
+body.dark .footer-links a:hover,
+body.dark .footer-socials a:hover {
+  color: var(--color-highlight-dark);
+}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="your-logo.png" alt="Logo">
+      Realnex
+    </div>
+    <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button id="mode-toggle" title="Toggle Dark Mode"><i class="fas fa-moon"></i></button>
+  </header>
+
+  <main>
+    <section id="about" class="animated">
+      <img src="profile.jpg" alt="Your Photo">
+      <div class="intro-text">
+        <h1>Hello, I'm Alvin R. Golosino</h1>
+        <p>I'm a passionate web developer with a love for modern design, responsive layouts, and clean code. Let's create something amazing together!</p>
+      </div>
+    </section>
+
+    <section id="skills" class="animated">
+      <h2>Skills</h2>
+      <div class="skills-list">
+        <div class="skill"><i class="fab fa-html5"></i> HTML5</div>
+        <div class="skill"><i class="fab fa-css3-alt"></i> CSS3</div>
+        <div class="skill"><i class="fab fa-js"></i> JavaScript</div>
+        <div class="skill"><i class="fab fa-php"></i> PHP</div>
+        <div class="skill"><i class="fab fa-laravel"></i> Laravel</div>
+        <div class="skill"><i class="fab fa-react"></i> React</div>
+      </div>
+    </section>
+<section id="projects" class="animated">
+  <h2>Projects</h2>
+  <div class="projects-grid">
+    <div class="project-card">
+      <img src="project1.jpg" alt="Project 1">
+      <h3>Realnex Tech Solutions Website</h3>
+      <p>Empowering startups and small businesses with modern web development, UI/UX design, and smart digital solutions. We build clean, responsive, and user-focused websites to help you grow online.</p>
+      <a href="https://pl-drab.vercel.app/" target="_blank">View Project</a>
+    </div>
+    <div class="project-card">
+      <img src="project2.jpg" alt="Project 2">
+      <h3>CRN Marketing Website</h3>
+      <p>Bringing comfort and style to your space with quality-crafted furniture designed for modern living.</p>
+      <a href="https://crn-eta.vercel.app/" target="_blank">View Project</a>
+    </div>
+    <div class="project-card">
+      <img src="project2.jpg" alt="Project 2">
+      <h3>MJ Flower Shop Website</h3>
+      <p>Brightening your moments with fresh, handcrafted floral arrangements for every occasion.
+</p>
+      <a href="https://oop.wuaze.com/oop-auth/public/landing.php" target="_blank">View Project</a>
+    </div>
+    <!-- Add more project cards as needed -->
+  </div>
+</section>
+
+    <section id="contact" class="animated">
+  <h2>Contact</h2>
+  <form class="contact-form" action="#" method="post">
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="message">Message</label>
+    <textarea id="message" name="message" rows="5" required></textarea>
+
+    <button type="submit">Send Message</button>
+  </form>
+</section>
+<footer>
+  <div class="footer-content">
+    <p>&copy; 2025 Your Name. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="footer-socials">
+      <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+      <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+      <a href="https://github.com" target="_blank"><i class="fab fa-github"></i></a>
+    </div>
+  </div>
+</footer>
+  </main>
+
+  <script>
+    // Toggle dark mode
+    document.getElementById('mode-toggle').addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+    });
+
+    // Toggle nav on mobile
+    document.querySelector('.menu-toggle').addEventListener('click', () => {
+      document.querySelector('nav').classList.toggle('show');
+    });
+  </script>
+</body>
+</html>
+
